@@ -1,0 +1,33 @@
+---
+import Ficha from './Ficha.astro';
+import { precio } from '../lib/formato';
+import { precioPorCookie, type Pack } from '../data/packs';
+import { whatsapp } from '../data/sitio';
+
+interface Props {
+  pack: Pack;
+  /** En la página de packs: muestra la ficha y pide directo por WhatsApp */
+  detalle?: boolean;
+}
+const { pack, detalle = false } = Astro.props;
+---
+<li class:list={['pack', `pack--${pack.color}`, { 'pack--destacado': pack.destacado }]}>
+  <p class="pack__etiqueta">{pack.etiqueta}</p>
+  <h3 class="pack__nombre">{pack.nombre}</h3>
+  <p class="pack__precio">{precio(pack.precio)}</p>
+  {detalle && <span class={`pack__cantidad pack__cantidad--${pack.cantidad}`} aria-hidden="true"></span>}
+  <p class="pack__descripcion">{pack.descripcion}</p>
+  {detalle && (
+    <Ficha datos={[
+      ['Incluye', pack.incluye],
+      ['Cada cookie sale', precio(precioPorCookie(pack))],
+      ['Entrega', pack.entrega],
+      ['Ideal para', pack.idealPara],
+    ]} />
+  )}
+  {detalle ? (
+    <a class="boton pack__boton" href={whatsapp(pack.mensaje)} target="_blank" rel="noopener">Lo quiero<span class="visualmente-oculto">: pack {pack.nombre}</span></a>
+  ) : (
+    <a class="boton pack__boton" href="#pedidos">Lo quiero<span class="visualmente-oculto">: pack {pack.nombre}</span></a>
+  )}
+</li>

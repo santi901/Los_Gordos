@@ -1,0 +1,44 @@
+---
+import Logo from './Logo.astro';
+import { ruta, type Pagina } from '../lib/rutas';
+
+interface Props {
+  pagina: Pagina;
+}
+const { pagina } = Astro.props;
+const esInicio = pagina === 'inicio';
+// En el inicio, Nosotros y Pedí ahora bajan a su sección; en el resto, vuelven al inicio
+const inicio = esInicio ? '' : ruta();
+---
+<header class="encabezado">
+  <div class="encabezado__interior">
+    <Logo href={esInicio ? '#inicio' : ruta()} etiqueta="Los Gordos, ir al inicio" />
+
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu">
+      <span class="visualmente-oculto">Abrir menú</span>
+      <span class="menu-boton__barras" aria-hidden="true"></span>
+    </button>
+
+    <!-- Sabores y Packs abren su página con el detalle. En el inicio,
+         data-seccion marca el link mientras su sección está en pantalla -->
+    <nav class="menu" id="menu" aria-label="Principal">
+      <ul class="menu__lista">
+        <li>
+          <a class="menu__link" href={ruta('sabores/')}
+             data-seccion={esInicio ? 'sabores' : undefined}
+             aria-current={pagina === 'sabores' ? 'page' : undefined}>Sabores</a>
+        </li>
+        <li>
+          <a class="menu__link" href={`${inicio}#nosotros`}
+             data-seccion={esInicio ? 'nosotros' : undefined}>Nosotros</a>
+        </li>
+        <li>
+          <a class="menu__link" href={ruta('packs/')}
+             data-seccion={esInicio ? 'packs' : undefined}
+             aria-current={pagina === 'packs' ? 'page' : undefined}>Packs</a>
+        </li>
+        <li><a class="boton boton--amarillo boton--chico" href={`${inicio}#pedidos`}>Pedí ahora</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>

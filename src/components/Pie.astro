@@ -1,0 +1,41 @@
+---
+import Logo from './Logo.astro';
+import { ruta, type Pagina } from '../lib/rutas';
+import { valores } from '../data/sitio';
+
+interface Props {
+  pagina: Pagina;
+  /** Da vuelta la onda de arriba, según el color de la sección anterior */
+  invertida?: boolean;
+}
+const { pagina, invertida = true } = Astro.props;
+const esInicio = pagina === 'inicio';
+const inicio = esInicio ? '' : ruta();
+---
+<footer class:list={['pie', 'onda-arriba', 'onda-arriba--b', { 'onda-arriba--invertida': invertida }]}>
+  <div class="contenedor pie__interior">
+    <Logo
+      href={esInicio ? '#inicio' : ruta()}
+      etiqueta={esInicio ? 'Los Gordos, volver al inicio' : 'Los Gordos, ir al inicio'}
+      apilado
+    />
+
+    <div class="pie__datos">
+      <nav class="pie__menu" aria-label="Secundario">
+        <ul>
+          <li><a href={ruta('sabores/')}>Sabores</a></li>
+          <li><a href={`${inicio}#nosotros`}>Nosotros</a></li>
+          <li><a href={ruta('packs/')}>Packs</a></li>
+          <li><a href={`${inicio}#pedidos`}>Pedidos</a></li>
+        </ul>
+      </nav>
+
+      <p class="pie__lema">{valores.join(' · ')}<br>Cookies del barrio · Est. 2026</p>
+    </div>
+  </div>
+
+  <div class="contenedor pie__base">
+    <p>© 2026 Los Gordos</p>
+    <a href="#inicio">Volver arriba ↑</a>
+  </div>
+</footer>

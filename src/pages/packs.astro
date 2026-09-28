@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import Etiqueta from '../components/Etiqueta.astro';
+import Pasos from '../components/Pasos.astro';
+import TarjetaPack from '../components/TarjetaPack.astro';
+import obrador from '../assets/img/obrador.svg?url';
+import { packs } from '../data/packs';
+import { whatsapp } from '../data/sitio';
+import { ruta } from '../lib/rutas';
+
+const pasos = [
+  { titulo: 'Elegí tu pack', texto: 'Trío, Media docena o Caja Gorda.' },
+  { titulo: 'Mezclá los sabores', texto: 'Combiná como quieras los cuatro sabores de la casa.' },
+  { titulo: 'Encargá antes de las 16 h', texto: 'Escribinos por WhatsApp y te confirmamos el pedido.' },
+  { titulo: 'Retirá o recibí', texto: 'Pasá a buscarlas calientes o te las llevamos (gratis desde 6 unidades).' },
+];
+
+// Respuestas de ejemplo para completar
+const preguntas = [
+  { pregunta: '¿Puedo mezclar sabores en un mismo pack?', respuesta: 'Sí. En todos los packs elegís cuántas cookies querés de cada sabor.' },
+  { pregunta: '¿Hacen envíos?', respuesta: 'Sí. Desde 6 unidades el envío es gratis. Si pedís menos, pasá a buscarlas por el local.' },
+  { pregunta: '¿Hasta qué hora puedo encargar?', respuesta: 'Encargá antes de las 16 h y las tenés calientes la misma tarde.' },
+  { pregunta: '¿Qué son los sabores de edición?', respuesta: 'Son sabores especiales que cambian cada tanto y vienen solo en la Caja Gorda.' },
+  { pregunta: '¿Cuánto duran las cookies?', respuesta: 'Recién hechas son imbatibles, pero en un frasco cerrado se mantienen tiernas 3 o 4 días.' },
+];
+---
+<Base
+  pagina="packs"
+  titulo="Packs · Los Gordos"
+  descripcion="Packs de cookies Los Gordos: Trío, Media docena y Caja Gorda. Mezclá los sabores que quieras. Envío gratis desde 6 unidades."
+  ogTitulo="Packs · Los Gordos"
+  ogDescripcion="Elegí la caja y mezclá los sabores que quieras."
+  pieInvertido={false}
+>
+  <CabeceraPagina
+    color="amarilla"
+    nombre="Packs"
+    titulo="Packs para compartir (o no)"
+    bajada="Elegí la caja y mezclá los sabores que quieras. Cuantas más cookies, menos pagás cada una. Envío gratis desde 6 unidades."
+    datos={['Mezclá los sabores', 'Envío gratis desde 6', 'Encargá antes de las 16 h']}
+  >
+    <figure class="cabecera-pagina__foto" slot="visual">
+      <img src={obrador} alt="Cookies de todos los sabores recién horneadas" width="400" height="500">
+    </figure>
+  </CabeceraPagina>
+
+  <!-- ============ LOS PACKS EN DETALLE ============ -->
+  <section class="seccion seccion--blanca onda-arriba" aria-labelledby="packs-titulo">
+    <div class="contenedor">
+      <Etiqueta>Elegí tu caja</Etiqueta>
+      <h2 class="titulo" id="packs-titulo">Tres tamaños,<br>los mismos sabores</h2>
+
+      <ul class="grilla-packs grilla-packs--detalle">
+        {packs.map((pack) => <TarjetaPack pack={pack} detalle />)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ CÓMO PEDIR ============ -->
+  <section class="seccion seccion--negra onda-arriba onda-arriba--b goteo-abajo" aria-labelledby="pedir-titulo">
+    <div class="contenedor">
+      <Etiqueta>Cómo pedir</Etiqueta>
+      <h2 class="titulo" id="pedir-titulo">Cuatro pasos<br>y a merendar</h2>
+      <Pasos pasos={pasos} />
+    </div>
+  </section>
+
+  <!-- ============ PREGUNTAS FRECUENTES ============ -->
+  <section class="seccion seccion--amarilla tras-goteo" aria-labelledby="preguntas-titulo">
+    <div class="contenedor">
+      <Etiqueta>Preguntas frecuentes</Etiqueta>
+      <h2 class="titulo" id="preguntas-titulo">Lo que siempre<br>nos preguntan</h2>
+
+      <!-- <details> abre y cierra cada respuesta sin JavaScript -->
+      <div class="preguntas">
+        {preguntas.map(({ pregunta, respuesta }) => (
+          <details class="pregunta">
+            <summary>{pregunta}</summary>
+            <p>{respuesta}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LLAMADO A LA ACCIÓN ============ -->
+  <section class="seccion seccion--roja onda-arriba onda-arriba--invertida llamado" aria-labelledby="llamado-titulo">
+    <div class="contenedor">
+      <h2 class="titulo" id="llamado-titulo">¿Armamos tu caja?</h2>
+      <p class="llamado__bajada">Escribinos y la tenés lista la misma tarde.</p>
+      <div class="acciones">
+        <a class="boton boton--amarillo" href={whatsapp()} target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        <a class="boton boton--borde" href={ruta('sabores/')}>Ver los sabores</a>
+      </div>
+    </div>
+  </section>
+</Base>

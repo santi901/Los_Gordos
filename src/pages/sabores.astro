@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import Etiqueta from '../components/Etiqueta.astro';
+import Ficha from '../components/Ficha.astro';
+import Pasos from '../components/Pasos.astro';
+import { sabores } from '../data/sabores';
+import { whatsapp } from '../data/sitio';
+import { precio } from '../lib/formato';
+import { ruta } from '../lib/rutas';
+
+const pasos = [
+  { titulo: 'Masa gruesa', texto: 'Armamos bollos grandes, de 120 g, para que el centro quede tierno.' },
+  { titulo: 'Tandas chicas', texto: 'Horneamos varias veces por día: siempre hay cookies recién salidas.' },
+  { titulo: 'Directo a tus manos', texto: 'Encargá antes de las 16 h y las tenés calientes la misma tarde.' },
+];
+---
+<Base
+  pagina="sabores"
+  titulo="Sabores · Los Gordos"
+  descripcion="Los cuatro sabores de Los Gordos: Doble Chocolate, Dulce de Leche, Nuez y Sal y Red Velvet. Cookies de 120 g, horneadas todos los días en el barrio."
+  ogTitulo="Sabores · Los Gordos"
+  ogDescripcion="Cuatro cookies de 120 g que no se negocian."
+>
+  <CabeceraPagina
+    color="roja"
+    nombre="Sabores"
+    titulo="Los sabores"
+    bajada="Cuatro cookies grandes, de 120 g cada una: masa gruesa, borde crocante y centro tierno. Las horneamos todos los días en el barrio, en tandas chicas, para que siempre estén recién hechas."
+    datos={['120 g cada una', 'Horneadas en el día', 'Se mezclan en los packs']}
+  >
+    <!-- Racimo de cookies: decorativo -->
+    <div class="racimo" aria-hidden="true" slot="visual">
+      {sabores.map((sabor) => <img src={sabor.foto} alt="" width="400" height="300">)}
+    </div>
+  </CabeceraPagina>
+
+  <!-- ============ DETALLE DE CADA SABOR ============ -->
+  <section class="seccion seccion--blanca onda-arriba" aria-label="Detalle de cada sabor">
+    <div class="contenedor lista-sabores">
+      {sabores.map((sabor, i) => (
+        <article class="detalle-sabor" id={sabor.id} aria-labelledby={`sabor-${i + 1}`}>
+          <figure class="detalle-sabor__foto">
+            <img src={sabor.foto} alt={sabor.alt} width="400" height="300" loading={i === 0 ? undefined : 'lazy'}>
+          </figure>
+          <div>
+            <Etiqueta numero={String(i + 1).padStart(2, '0')}>{sabor.etiqueta}</Etiqueta>
+            <div class="detalle-sabor__encabezado">
+              <h2 class="detalle-sabor__nombre" id={`sabor-${i + 1}`}>{sabor.nombre}</h2>
+              <p class="precio precio--grande">{precio(sabor.precio)}</p>
+            </div>
+            <p class="detalle-sabor__bajada">{sabor.bajada}</p>
+            <p class="detalle-sabor__texto">{sabor.texto}</p>
+            <Ficha datos={[
+              ['Lleva', sabor.lleva],
+              ['Ideal para', sabor.idealPara],
+              ['Contiene', sabor.contiene],
+            ]} />
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ CÓMO LAS HACEMOS ============ -->
+  <section class="seccion seccion--negra onda-arriba onda-arriba--b goteo-abajo" aria-labelledby="proceso-titulo">
+    <div class="contenedor">
+      <Etiqueta>Cómo las hacemos</Etiqueta>
+      <h2 class="titulo" id="proceso-titulo">Horneadas todos los días,<br>en tandas chicas</h2>
+      <Pasos pasos={pasos} />
+    </div>
+  </section>
+
+  <!-- ============ LLAMADO A LA ACCIÓN ============ -->
+  <section class="seccion seccion--amarilla tras-goteo llamado" aria-labelledby="llamado-titulo">
+    <div class="contenedor">
+      <h2 class="titulo" id="llamado-titulo">¿Ya elegiste tu favorita?</h2>
+      <p class="llamado__bajada">Armá tu caja mezclando los sabores que quieras.</p>
+      <div class="acciones">
+        <a class="boton boton--negro" href={ruta('packs/')}>Ver los packs</a>
+        <a class="boton boton--borde" href={whatsapp()} target="_blank" rel="noopener">Pedir por WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</Base>

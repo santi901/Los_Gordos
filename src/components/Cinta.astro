@@ -1,0 +1,23 @@
+---
+import { valores } from '../data/sitio';
+
+// 12 palabras por grupo, con puntos que alternan rojo y amarillo
+const items = Array.from({ length: 12 }, (_, i) => ({
+  palabra: valores[i % valores.length],
+  color: i % 2 === 0 ? 'rojo' : 'amarillo',
+}));
+---
+<!-- Cinta de valores, inclinada. Es decorativa (los valores se leen en
+     "Nosotros"), por eso aria-hidden -->
+<div class="cinta" aria-hidden="true">
+  <div class="cinta__pista">
+    {/* Dos grupos idénticos: permiten que la animación sea un loop sin cortes */}
+    {[0, 1].map(() => (
+      <ul class="cinta__grupo">
+        {items.map(({ palabra, color }) => (
+          <Fragment><li>{palabra}</li><li class={`cinta__punto cinta__punto--${color}`}></li></Fragment>
+        ))}
+      </ul>
+    ))}
+  </div>
+</div>

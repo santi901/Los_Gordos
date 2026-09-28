@@ -1,0 +1,55 @@
+---
+import '../styles/styles.css';
+import Encabezado from '../components/Encabezado.astro';
+import Pie from '../components/Pie.astro';
+import alfaSlabOne from '../assets/fonts/alfa-slab-one-latin.woff2?url';
+import roboto from '../assets/fonts/roboto-latin.woff2?url';
+import { ruta, type Pagina } from '../lib/rutas';
+
+interface Props {
+  pagina: Pagina;
+  titulo: string;
+  descripcion: string;
+  ogTitulo: string;
+  ogDescripcion: string;
+  /** Ver Pie.astro */
+  pieInvertido?: boolean;
+}
+const { pagina, titulo, descripcion, ogTitulo, ogDescripcion, pieInvertido } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{titulo}</title>
+  <meta name="description" content={descripcion}>
+  <meta name="theme-color" content="#1A1A1A">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content={ogTitulo}>
+  <meta property="og:description" content={ogDescripcion}>
+
+  <link rel="icon" href={ruta('favicon.svg')} type="image/svg+xml">
+  <link rel="preload" href={alfaSlabOne} as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href={roboto} as="font" type="font/woff2" crossorigin>
+
+  <!-- Marca que hay JavaScript: el menú mobile solo se oculta si se puede abrir -->
+  <script is:inline>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <Encabezado pagina={pagina} />
+
+  <main id="contenido">
+    <slot />
+  </main>
+
+  <Pie pagina={pagina} invertida={pieInvertido} />
+
+  <script>
+    import '../scripts/main.js';
+  </script>
+</body>
+</html>

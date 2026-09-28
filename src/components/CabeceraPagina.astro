@@ -1,0 +1,33 @@
+---
+// Cabecera de las páginas internas: migas, título, bajada, datos rápidos
+// y a la derecha lo que se pase en el slot "visual".
+import { ruta } from '../lib/rutas';
+
+interface Props {
+  color: 'roja' | 'amarilla';
+  nombre: string;
+  titulo: string;
+  bajada: string;
+  datos: string[];
+}
+const { color, nombre, titulo, bajada, datos } = Astro.props;
+---
+<section class={`cabecera-pagina cabecera-pagina--${color}`} id="inicio" aria-labelledby="pagina-titulo">
+  <div class="cabecera-pagina__interior">
+    <div>
+      <nav class="migas" aria-label="Estás en">
+        <ol>
+          <li><a href={ruta()}>Inicio</a></li>
+          <li aria-current="page">{nombre}</li>
+        </ol>
+      </nav>
+      <h1 class="cabecera-pagina__titulo" id="pagina-titulo">{titulo}</h1>
+      <p class="cabecera-pagina__bajada">{bajada}</p>
+      <ul class="datos-rapidos">
+        {datos.map((dato) => <li>{dato}</li>)}
+      </ul>
+    </div>
+
+    <slot name="visual" />
+  </div>
+</section>

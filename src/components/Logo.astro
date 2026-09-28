@@ -1,0 +1,14 @@
+---
+// Logo variante "Mono · Blanco" del manual (para fondo negro).
+// `apilado` es la versión que se usa en el pie.
+interface Props {
+  href: string;
+  etiqueta: string;
+  apilado?: boolean;
+}
+const { href, etiqueta, apilado = false } = Astro.props;
+---
+<a class:list={['logo', 'logo--mono-blanco', { 'logo--apilado': apilado }]} href={href} aria-label={etiqueta}>
+  <span class="logo__iso" aria-hidden="true">LG</span>
+  <span class="logo__nombre" aria-hidden="true">Los<br>Gordos</span>
+</a>

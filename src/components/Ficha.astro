@@ -1,0 +1,9 @@
+---
+interface Props {
+  datos: [string, string][];
+}
+const { datos } = Astro.props;
+---
+<dl class="ficha">
+  {datos.map(([titulo, texto]) => <div><dt>{titulo}</dt><dd>{texto}</dd></div>)}
+</dl>

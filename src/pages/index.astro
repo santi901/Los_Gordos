@@ -1,0 +1,165 @@
+---
+import Base from '../layouts/Base.astro';
+import Cinta from '../components/Cinta.astro';
+import Etiqueta from '../components/Etiqueta.astro';
+import TarjetaPack from '../components/TarjetaPack.astro';
+import heroCookie from '../assets/img/hero-cookie.svg?url';
+import obrador from '../assets/img/obrador.svg?url';
+import { sabores } from '../data/sabores';
+import { packs } from '../data/packs';
+import { contacto, mapa, whatsapp } from '../data/sitio';
+import { precio } from '../lib/formato';
+import { ruta } from '../lib/rutas';
+---
+<Base
+  pagina="inicio"
+  titulo="Los Gordos · Las cookies más generosas del barrio"
+  descripcion="Cookies del barrio, grandes y generosas. Cuatro sabores, packs para compartir y pedidos para pasar a buscar en el día."
+  ogTitulo="Los Gordos · Las cookies más generosas"
+  ogDescripcion="Cookies del barrio, grandes y generosas. Pedí y pasá a buscarlas."
+>
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="inicio" aria-labelledby="hero-titulo">
+    <div class="hero__interior">
+      <div class="hero__texto">
+        <p class="pastilla">Cookies del barrio · Est. 2026</p>
+        <h1 class="hero__titulo" id="hero-titulo">Las cookies<br>más<br>generosas</h1>
+        <p class="hero__bajada">Hechas para el recreo, la merienda y cualquier antojo. Sin vueltas, con mucho sabor y el doble de chips.</p>
+        <div class="acciones">
+          <a class="boton boton--amarillo" href="#packs">Ver los packs</a>
+          <a class="boton boton--borde" href="#sabores">Los sabores</a>
+        </div>
+      </div>
+
+      <div class="hero__visual">
+        <figure class="hero__foto">
+          <img src={heroCookie} alt="Cookie con chips de chocolate vista desde arriba" width="600" height="600">
+        </figure>
+        <p class="hero__sticker">120 g<br>de cookie</p>
+      </div>
+    </div>
+
+    <Cinta />
+  </section>
+
+  <!-- ============ 01 · SABORES ============ -->
+  <section class="seccion seccion--blanca onda-arriba" id="sabores" aria-labelledby="sabores-titulo">
+    <div class="contenedor">
+      <div class="seccion__cabecera">
+        <div>
+          <Etiqueta numero="01">Sabores</Etiqueta>
+          <h2 class="titulo" id="sabores-titulo">Cuatro sabores<br>que no se negocian</h2>
+        </div>
+        <p class="seccion__bajada">Masa gruesa, borde crocante, centro tierno. Horneadas todos los días en el barrio.</p>
+      </div>
+
+      <ul class="grilla-sabores">
+        {sabores.map((sabor) => (
+          <li class="sabor">
+            <figure class="sabor__foto">
+              <img src={sabor.foto} alt={sabor.alt} width="400" height="300" loading="lazy">
+            </figure>
+            <h3 class="sabor__nombre">{sabor.nombre}</h3>
+            <p class="precio">{precio(sabor.precio)}</p>
+            <p class="sabor__descripcion">{sabor.bajada}</p>
+          </li>
+        ))}
+      </ul>
+
+      <p class="seccion__mas">
+        <a class="boton boton--negro" href={ruta('sabores/')}>Conocé cada sabor</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 02 · NOSOTROS ============ -->
+  <section class="seccion seccion--negra onda-arriba onda-arriba--b goteo-abajo" id="nosotros" aria-labelledby="nosotros-titulo">
+    <div class="contenedor nosotros">
+      <div class="nosotros__texto">
+        <Etiqueta numero="02">Nosotros</Etiqueta>
+        <h2 class="titulo" id="nosotros-titulo">La cookie de todos los días</h2>
+        <p class="nosotros__bajada">Empezamos horneando para los amigos y terminamos horneando para todo el barrio.</p>
+
+        <div class="mision-vision">
+          <article class="tarjeta tarjeta--roja">
+            <h3 class="tarjeta__titulo">Misión</h3>
+            <p class="tarjeta__texto">Hacer las cookies más ricas y generosas del barrio, accesibles para todos, sin vueltas y con mucho sabor.</p>
+          </article>
+          <article class="tarjeta tarjeta--amarilla">
+            <h3 class="tarjeta__titulo">Visión</h3>
+            <p class="tarjeta__texto">Ser la cookie de todos los días: la que está en el recreo, en la merienda y en cualquier antojo.</p>
+          </article>
+        </div>
+      </div>
+
+      <figure class="nosotros__foto">
+        <img src={obrador} alt="Bandeja con doce cookies recién horneadas" width="400" height="500" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="contenedor valores">
+      <h3 class="valores__titulo">Nuestros valores</h3>
+      <ul class="valores__lista">
+        <li class="valor valor--amarillo">
+          <p class="valor__nombre">Diversión</p>
+          <p class="valor__texto">Sabores que dan ganas de compartir.</p>
+        </li>
+        <li class="valor valor--rojo">
+          <p class="valor__nombre">Accesible</p>
+          <p class="valor__texto">Precio de barrio, siempre.</p>
+        </li>
+        <li class="valor valor--blanco">
+          <p class="valor__nombre">Abundancia</p>
+          <p class="valor__texto">Porciones que se sienten.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 03 · PACKS ============ -->
+  <section class="seccion seccion--amarilla tras-goteo" id="packs" aria-labelledby="packs-titulo">
+    <div class="contenedor">
+      <Etiqueta numero="03">Packs</Etiqueta>
+      <h2 class="titulo" id="packs-titulo">Packs para compartir<br>(o no)</h2>
+      <p class="seccion__bajada packs__bajada">Elegí la caja, mezclá los sabores que quieras. Envío gratis desde 6 unidades.</p>
+
+      <ul class="grilla-packs">
+        {packs.map((pack) => <TarjetaPack pack={pack} />)}
+      </ul>
+
+      <p class="seccion__mas">
+        <a class="boton boton--negro" href={ruta('packs/')}>Cómo funcionan los packs</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 04 · PEDIDOS ============ -->
+  <section class="seccion seccion--roja onda-arriba onda-arriba--invertida" id="pedidos" aria-labelledby="pedidos-titulo">
+    <div class="contenedor pedidos">
+      <div class="pedidos__texto">
+        <Etiqueta numero="04">Pedidos</Etiqueta>
+        <h2 class="titulo" id="pedidos-titulo">Pedí y pasá<br>a buscarlas</h2>
+        <p class="pedidos__bajada">Horneamos por tandas. Encargá antes de las 16 h y las tenés calientes la misma tarde.</p>
+        <div class="acciones">
+          <a class="boton boton--amarillo" href={whatsapp()} target="_blank" rel="noopener">Pedir por WhatsApp</a>
+          <a class="boton boton--borde" href={mapa} target="_blank" rel="noopener">Ver el local</a>
+        </div>
+      </div>
+
+      <dl class="pedidos__info">
+        <div class="dato">
+          <dt>Dónde</dt>
+          <dd class="dato__destacado">{contacto.direccion}</dd>
+        </div>
+        <div class="dato">
+          <dt>Horarios</dt>
+          <dd set:html={contacto.horarios.join('<br>')} />
+        </div>
+        <div class="dato">
+          <dt>Contacto</dt>
+          <dd><a href={`mailto:${contacto.mail}`}>{contacto.mail}</a> · <a href={`tel:${contacto.telefonoLink}`}>{contacto.telefono}</a></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+</Base>

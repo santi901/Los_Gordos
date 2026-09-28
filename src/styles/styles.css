@@ -1,0 +1,1857 @@
+/* ==========================================================================
+   LOS GORDOS · Landing
+   Layout basado en el diseño de la landing y en el Manual de Identidad
+   Corporativa (paleta, tipografías, logotipo y "Acerca de la empresa").
+
+   Nada de cortes rectos: las secciones se dividen con ondas y goteos,
+   y los bloques usan círculos, arcos y píldoras (formas "gorditas").
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   1. Tipografías (auto-alojadas en assets/fonts)
+   -------------------------------------------------------------------------- */
+
+/* Principal · Alfa Slab One: titulares, nombres y precios destacados */
+@font-face {
+  font-family: 'Alfa Slab One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/alfa-slab-one-latin.woff2') format('woff2');
+}
+
+/* Complementaria · Roboto (fuente variable, pesos 100 a 900): textos y descripciones */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url('../assets/fonts/roboto-latin.woff2') format('woff2');
+}
+
+
+/* --------------------------------------------------------------------------
+   2. Variables
+   -------------------------------------------------------------------------- */
+
+:root {
+  /* Paleta del manual */
+  --rojo: #E63329;
+  --amarillo: #F5C518;
+  --blanco: #FFFFFF;
+  --negro: #1A1A1A;
+
+  /* Neutros de apoyo (solo textos secundarios, líneas y fondos de fotos) */
+  --gris-texto: #4A4A4A;
+  --gris-suave: #D7D3CF;
+  --gris-claro: #E6E2DE;
+  --gris-pie: #8D8781;
+  --gris-linea: #444444;
+  --gris-oscuro: #2A2A2A;
+  --gris-foto: #F1EFEC;
+
+  /* Tipografías */
+  --fuente-titulos: 'Alfa Slab One', Rockwell, Georgia, serif;
+  --fuente-texto: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  /* Medidas */
+  --ancho-maximo: 1280px;
+  --margen-lateral: clamp(16px, 4vw, 56px);
+  --espacio-seccion: clamp(56px, 7vw, 110px);
+  --alto-encabezado: 74px;              /* píldora (62px) + aire de arriba (12px) */
+  --alto-onda: clamp(48px, 7.5vw, 120px); /* alto de las ondas entre secciones */
+  --alto-goteo: clamp(44px, 5vw, 72px); /* alto del goteo de chocolate */
+  --borde: 3px solid var(--negro);
+  --radio: 28px;
+  --radio-grande: 36px;
+
+  /* Formas para dividir secciones y decorar (máscaras SVG incrustadas en el
+     CSS: así funcionan también abriendo index.html con doble clic) */
+  --forma-onda-a: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0 48C140 10 300 6 440 40C560 68 640 86 800 74C980 60 1060 14 1220 16C1330 18 1400 40 1440 52V100H0Z'/%3E%3C/svg%3E");
+  --forma-onda-b: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0 70C120 76 260 30 420 24C600 18 700 70 880 72C1040 74 1120 30 1280 28C1360 27 1410 40 1440 46V100H0Z'/%3E%3C/svg%3E");
+  --forma-goteo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 100'%3E%3Cpath d='M0 0H720V22L694 22Q682 22 682 34L682 38A14 14 0 0 1 654 38L654 34Q654 22 642 22L601 22Q589 22 589 34L589 62A24 24 0 0 1 541 62L541 34Q541 22 529 22L480 22Q468 22 468 34L468 50A18 18 0 0 1 432 50L432 34Q432 22 420 22L345 22Q333 22 333 34L333 72A28 28 0 0 1 277 72L277 34Q277 22 265 22L217 22Q205 22 205 34L205 41A15 15 0 0 1 175 41L175 34Q175 22 163 22L94 22Q82 22 82 34L82 58A22 22 0 0 1 38 58L38 34Q38 22 26 22L0 22Z'/%3E%3C/svg%3E");
+  --forma-sello: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 14A16.7 16.7 0 0 1 129.4 19.2A16.7 16.7 0 0 1 155.3 34.1A16.7 16.7 0 0 1 174.5 57A16.7 16.7 0 0 1 184.7 85.1A16.7 16.7 0 0 1 184.7 114.9A16.7 16.7 0 0 1 174.5 143A16.7 16.7 0 0 1 155.3 165.9A16.7 16.7 0 0 1 129.4 180.8A16.7 16.7 0 0 1 100 186A16.7 16.7 0 0 1 70.6 180.8A16.7 16.7 0 0 1 44.7 165.9A16.7 16.7 0 0 1 25.5 143A16.7 16.7 0 0 1 15.3 114.9A16.7 16.7 0 0 1 15.3 85.1A16.7 16.7 0 0 1 25.5 57A16.7 16.7 0 0 1 44.7 34.1A16.7 16.7 0 0 1 70.6 19.2A16.7 16.7 0 0 1 100 14Z'/%3E%3C/svg%3E");
+  --forma-garabato: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 16'%3E%3Cpath d='M4 8Q13 0 22 8T40 8T58 8T76 8T94 8T112 8' fill='none' stroke='black' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E");
+
+  /* Línea de puntos redondos (reemplaza a las líneas rectas).
+     La versión "clara" es para fondos rojos o negros. */
+  --puntos: radial-gradient(circle at 2px 2px, var(--gris-linea) 1.6px, transparent 2px) 0 0 / 10px 4px repeat-x;
+  --puntos-claros: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.45) 1.6px, transparent 2px) 0 0 / 10px 4px repeat-x;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. Base
+   -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Deja lugar para el encabezado flotante al saltar a una sección */
+  scroll-padding-top: calc(var(--alto-encabezado) + 16px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--negro);
+  color: var(--negro);
+  font-family: var(--fuente-texto);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  display: block;
+  overflow-x: clip;
+}
+
+h1, h2, h3, p, ul, dl, dd, figure {
+  margin: 0;
+}
+
+/* Alfa Slab One tiene un solo peso: evitamos que el navegador la "engorde" */
+h1, h2, h3 {
+  font-weight: 400;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-foco, var(--amarillo));
+  outline-offset: 3px;
+}
+
+.contenedor {
+  max-width: var(--ancho-maximo);
+  margin-inline: auto;
+}
+
+.visualmente-oculto {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.saltar {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 100;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: var(--amarillo);
+  color: var(--negro);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.saltar:focus {
+  top: 12px;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. Divisiones entre secciones
+   En vez de cortes rectos, cada sección "sube" sobre la anterior con una
+   onda (::before) o "gotea" sobre la siguiente como chocolate derretido
+   (::after). La forma es una máscara SVG (variables --forma-* en :root) que se
+   pinta con el mismo color de fondo de la sección.
+   -------------------------------------------------------------------------- */
+
+.onda-arriba,
+.goteo-abajo {
+  position: relative;
+}
+
+.onda-arriba::before,
+.goteo-abajo::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: 0;
+  background: inherit;
+  pointer-events: none;
+}
+
+.onda-arriba::before {
+  bottom: calc(100% - 1px); /* 1px de solapamiento: evita una línea finita entre secciones */
+  height: var(--alto-onda);
+  -webkit-mask: var(--forma-onda-a) center bottom / 100% 100% no-repeat;
+          mask: var(--forma-onda-a) center bottom / 100% 100% no-repeat;
+}
+
+.onda-arriba--b::before {
+  -webkit-mask-image: var(--forma-onda-b);
+          mask-image: var(--forma-onda-b);
+}
+
+/* La misma onda espejada, para que no se repita igual */
+.onda-arriba--invertida::before {
+  transform: scaleX(-1);
+}
+
+.goteo-abajo {
+  z-index: 1; /* las gotas quedan por encima de la sección siguiente */
+}
+
+.goteo-abajo::after {
+  top: calc(100% - 1px);
+  height: var(--alto-goteo);
+  -webkit-mask: var(--forma-goteo) left top / auto 100% repeat-x;
+          mask: var(--forma-goteo) left top / auto 100% repeat-x;
+}
+
+/* La sección que gotea no necesita el lugar extra para una onda debajo */
+.seccion.goteo-abajo {
+  padding-bottom: var(--espacio-seccion);
+}
+
+/* La sección que recibe el goteo deja lugar arriba para las gotas */
+.seccion.tras-goteo {
+  padding-top: calc(var(--espacio-seccion) + var(--alto-goteo));
+}
+
+
+/* --------------------------------------------------------------------------
+   5. Logotipo
+   Isotipo circular "LG" + nombre en Alfa Slab One (manual: Logotipos y
+   proporciones · Variantes cromáticas). No se deforma, no lleva sombras ni
+   efectos y "Los" y "Gordos" van siempre juntos.
+   -------------------------------------------------------------------------- */
+
+.logo {
+  --tamano: 17px;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: calc(var(--tamano) * 0.65);
+  color: var(--negro);
+  font-family: var(--fuente-titulos);
+  font-size: var(--tamano);
+  line-height: 0.92;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+/* El diámetro se mide en "em" del propio isotipo: 2.7 × (0.9 × 17px) ≈ 41px */
+.logo__iso {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.7em;
+  height: 2.7em;
+  border-radius: 50%;
+  background: var(--negro);
+  color: var(--amarillo);
+  font-size: 0.9em;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Mono · Blanco: para fondos negros */
+.logo--mono-blanco {
+  color: var(--blanco);
+}
+
+.logo--mono-blanco .logo__iso {
+  border: 2px solid currentColor;
+  background: transparent;
+  color: var(--blanco);
+}
+
+/* Versión apilada (isotipo arriba, nombre centrado) */
+.logo--apilado {
+  --tamano: 26px;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+
+.logo--apilado .logo__iso {
+  width: 2.6em;
+  height: 2.6em;
+  font-size: 0.6em;
+}
+
+
+/* --------------------------------------------------------------------------
+   6. Botones, pastillas y etiquetas
+   -------------------------------------------------------------------------- */
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 28px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  font-family: var(--fuente-texto);
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: 1.4px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.boton:active {
+  transform: translateY(1px);
+}
+
+.boton--chico {
+  padding: 10px 18px;
+  font-size: 13px;
+}
+
+.boton--amarillo {
+  background: var(--amarillo);
+  color: var(--negro);
+}
+
+.boton--amarillo:hover {
+  background: var(--blanco);
+  color: var(--negro);
+}
+
+.boton--borde {
+  border-color: currentColor;
+  background: transparent;
+  color: inherit;
+}
+
+.boton--borde:hover {
+  border-color: var(--amarillo);
+  background: var(--amarillo);
+  color: var(--negro);
+}
+
+/* Sobre fondo amarillo, el hover amarillo no se vería: pasa a negro */
+.seccion--amarilla .boton--borde:hover {
+  border-color: var(--negro);
+  background: var(--negro);
+  color: var(--blanco);
+}
+
+.boton--negro {
+  background: var(--negro);
+  color: var(--blanco);
+}
+
+.boton--negro:hover {
+  background: var(--rojo);
+  color: var(--blanco);
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+/* En celulares los botones ocupan todo el ancho: más fáciles de tocar */
+@media (max-width: 479.98px) {
+  .acciones .boton {
+    flex: 1 1 100%;
+  }
+}
+
+.pastilla {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--amarillo);
+  color: var(--negro);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+
+/* Etiqueta de sección con número en un círculo (como el isotipo) */
+.etiqueta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: var(--etiqueta-color, currentColor);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+
+.etiqueta__numero {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--etiqueta-fondo-numero, var(--rojo));
+  color: var(--etiqueta-color-numero, var(--blanco));
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+
+/* --------------------------------------------------------------------------
+   7. Encabezado flotante (píldora) y menú
+   -------------------------------------------------------------------------- */
+
+.encabezado {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  /* El hero arranca debajo de la píldora */
+  margin-bottom: calc(-1 * var(--alto-encabezado));
+  padding: 12px var(--margen-lateral) 0;
+  /* El espacio alrededor de la píldora no bloquea los clics */
+  pointer-events: none;
+  --color-foco: var(--amarillo);
+}
+
+.encabezado__interior {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: var(--ancho-maximo);
+  min-height: 62px;
+  margin-inline: auto;
+  padding: 8px 8px 8px 12px;
+  border-radius: 999px;
+  background: var(--negro);
+  /* Filete sutil para que la píldora se vea también sobre fondos negros */
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+  color: var(--blanco);
+  pointer-events: auto;
+}
+
+.menu__lista {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px clamp(14px, 2.4vw, 32px);
+}
+
+.menu__link {
+  display: inline-block;
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+  color: var(--blanco);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.menu__link:hover {
+  color: var(--amarillo);
+}
+
+/* Página actual (aria-current="page") o sección que se está viendo
+   en el inicio (clase que agrega js/main.js) */
+.menu__link[aria-current="page"],
+.menu__link.esta-activo {
+  border-bottom-color: var(--amarillo);
+  color: var(--amarillo);
+}
+
+/* Botón hamburguesa: solo en pantallas chicas */
+.menu-boton {
+  display: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 2px solid var(--blanco);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--blanco);
+  cursor: pointer;
+}
+
+.menu-boton__barras,
+.menu-boton__barras::before,
+.menu-boton__barras::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.menu-boton__barras {
+  position: relative;
+}
+
+.menu-boton__barras::before,
+.menu-boton__barras::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.menu-boton__barras::before {
+  top: -6px;
+}
+
+.menu-boton__barras::after {
+  top: 6px;
+}
+
+.menu-boton[aria-expanded="true"] .menu-boton__barras {
+  background: transparent;
+}
+
+.menu-boton[aria-expanded="true"] .menu-boton__barras::before {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu-boton[aria-expanded="true"] .menu-boton__barras::after {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+@media (max-width: 759.98px) {
+  .js .menu-boton {
+    display: grid;
+  }
+
+  /* El menú se despliega como una tarjeta redondeada debajo de la píldora */
+  .js .menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    left: 0;
+    padding: 8px 24px 24px;
+    border-radius: var(--radio);
+    background: var(--negro);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+
+  .js .menu.esta-abierto {
+    display: block;
+  }
+
+  .js .menu__lista {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .js .menu__link {
+    display: block;
+    padding: 16px 0;
+    border-bottom: 0;
+    background: var(--puntos);
+    background-position: 0 100%;
+    font-size: 15px;
+  }
+
+  .js .menu .boton {
+    width: 100%;
+    margin-top: 20px;
+    padding: 16px 28px;
+    font-size: 15px;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   8. Hero
+   -------------------------------------------------------------------------- */
+
+.hero {
+  padding:
+    calc(var(--alto-encabezado) + clamp(32px, 5vw, 72px))
+    var(--margen-lateral)
+    calc(clamp(40px, 5vw, 64px) + var(--alto-onda));
+  background: var(--rojo);
+  color: var(--blanco);
+  --color-foco: var(--blanco);
+}
+
+.hero__interior {
+  display: grid;
+  gap: clamp(36px, 4vw, 64px);
+  align-items: center;
+  max-width: var(--ancho-maximo);
+  margin-inline: auto;
+}
+
+.hero__titulo {
+  margin-top: 20px;
+  font-family: var(--fuente-titulos);
+  font-size: clamp(38px, 11vw, 72px);
+  /* Interlineado justo, pero con aire para el acento de "MÁS"
+     (con menos, la tilde se pega a la línea de arriba) */
+  line-height: 1.02;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+}
+
+.hero__bajada {
+  max-width: 44ch;
+  margin-top: 22px;
+  font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.hero__visual {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  margin-inline: auto;
+}
+
+.hero__foto {
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.hero__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Sticker con forma de sello festoneado */
+.hero__sticker {
+  position: absolute;
+  top: -8px;
+  right: -4px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: clamp(108px, 11vw, 148px);
+  aspect-ratio: 1;
+  color: var(--amarillo);
+  font-family: var(--fuente-titulos);
+  font-size: clamp(15px, 1.4vw, 19px);
+  line-height: 1.05;
+  text-align: center;
+  transform: rotate(-6deg);
+  animation: bamboleo 3.4s ease-in-out infinite;
+}
+
+.hero__sticker::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--negro);
+  -webkit-mask: var(--forma-sello) center / contain no-repeat;
+          mask: var(--forma-sello) center / contain no-repeat;
+}
+
+@keyframes bamboleo {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(-2deg); }
+}
+
+@media (min-width: 900px) {
+  .hero__interior {
+    grid-template-columns: 1.05fr 0.95fr;
+  }
+
+  .hero__titulo {
+    font-size: clamp(56px, 6.4vw, 104px);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   9. Cinta de valores (marquesina inclinada)
+   -------------------------------------------------------------------------- */
+
+.cinta {
+  /* Más ancha que la pantalla: al inclinarla no se le ven las puntas */
+  margin: clamp(48px, 6vw, 88px) calc(-1 * var(--margen-lateral) - 60px) 0;
+  overflow: hidden;
+  padding: 16px 0;
+  background: var(--negro);
+  color: var(--blanco);
+  transform: rotate(-2deg);
+}
+
+.cinta__pista {
+  display: flex;
+  width: max-content;
+  /* js/main.js ajusta la duración para que la velocidad sea pareja en cualquier pantalla */
+  animation: cinta 60s linear infinite;
+}
+
+.cinta__grupo {
+  display: flex;
+  flex: none;
+  align-items: center;
+  font-family: var(--fuente-titulos);
+  font-size: clamp(16px, 2vw, 26px);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cinta__grupo > li {
+  padding: 0 22px;
+}
+
+.cinta__grupo > .cinta__punto {
+  width: 0.45em;
+  height: 0.45em;
+  padding: 0;
+  margin: 0 22px;
+  border-radius: 50%;
+}
+
+.cinta__punto--rojo {
+  background: var(--rojo);
+}
+
+.cinta__punto--amarillo {
+  background: var(--amarillo);
+}
+
+@keyframes cinta {
+  to { transform: translateX(-50%); }
+}
+
+
+/* --------------------------------------------------------------------------
+   10. Secciones (base común)
+   -------------------------------------------------------------------------- */
+
+/* Abajo dejamos lugar extra: ahí se apoya la onda de la sección siguiente */
+.seccion {
+  padding:
+    var(--espacio-seccion)
+    var(--margen-lateral)
+    calc(var(--espacio-seccion) + var(--alto-onda) * 0.6);
+}
+
+.seccion--blanca {
+  background: var(--blanco);
+  color: var(--negro);
+  --color-foco: var(--negro);
+  --etiqueta-color: var(--negro);
+}
+
+.seccion--negra {
+  background: var(--negro);
+  color: var(--blanco);
+  --color-foco: var(--amarillo);
+  --etiqueta-color: var(--amarillo);
+}
+
+.seccion--amarilla {
+  background: var(--amarillo);
+  color: var(--negro);
+  --color-foco: var(--negro);
+  --etiqueta-color: var(--negro);
+}
+
+.seccion--roja {
+  background: var(--rojo);
+  color: var(--blanco);
+  --color-foco: var(--blanco);
+  --etiqueta-color: var(--blanco);
+  --etiqueta-fondo-numero: var(--negro);
+  --etiqueta-color-numero: var(--amarillo);
+}
+
+.titulo {
+  font-family: var(--fuente-titulos);
+  font-size: clamp(34px, 5vw, 66px);
+  line-height: 0.95;
+  letter-spacing: -0.5px;
+  text-wrap: balance;
+}
+
+.seccion__cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: clamp(36px, 5vw, 64px);
+}
+
+.seccion__bajada {
+  max-width: 34ch;
+  color: var(--gris-texto);
+  font-size: 16px;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+
+/* --------------------------------------------------------------------------
+   11. Sabores
+   Sin cajas: cada cookie va en un círculo, con el precio como sticker,
+   y la grilla se escalona en zigzag.
+   -------------------------------------------------------------------------- */
+
+.grilla-sabores {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px clamp(16px, 3vw, 40px);
+  align-items: start;
+}
+
+/* El precio se superpone a la foto: comparten la celda "foto" */
+.sabor {
+  display: grid;
+  grid-template-areas:
+    "foto"
+    "nombre"
+    "descripcion";
+  justify-items: center;
+  justify-self: center;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+}
+
+.sabor:nth-child(even) {
+  margin-top: clamp(40px, 6vw, 80px);
+}
+
+.sabor__foto {
+  grid-area: foto;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--gris-foto);
+}
+
+.sabor__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sabor__nombre {
+  grid-area: nombre;
+  margin-top: 18px;
+  font-family: var(--fuente-titulos);
+  font-size: clamp(19px, 2vw, 24px);
+  line-height: 1.05;
+}
+
+.sabor .precio {
+  grid-area: foto;
+  align-self: end;
+  justify-self: end;
+  margin: 0 2% 4% 0;
+  border: 3px solid var(--blanco);
+  rotate: -8deg;
+}
+
+.precio {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--rojo);
+  color: var(--blanco);
+  font-size: 14px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.sabor__descripcion {
+  grid-area: descripcion;
+  max-width: 26ch;
+  margin-top: 8px;
+  color: var(--gris-texto);
+  font-size: 15px;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+@media (min-width: 1024px) {
+  .grilla-sabores {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   12. Nosotros (Acerca de la empresa: misión, visión y valores)
+   -------------------------------------------------------------------------- */
+
+.nosotros {
+  display: grid;
+  gap: clamp(40px, 5vw, 72px);
+  align-items: center;
+}
+
+.nosotros .titulo {
+  font-size: clamp(32px, 4.4vw, 56px);
+  line-height: 0.98;
+}
+
+.nosotros__bajada {
+  max-width: 50ch;
+  margin-top: 18px;
+  color: var(--gris-suave);
+  font-size: 17px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.mision-vision {
+  display: grid;
+  gap: 16px;
+  align-items: start;
+  margin-top: 32px;
+}
+
+.tarjeta {
+  padding: 24px 24px 28px;
+  border-radius: var(--radio);
+}
+
+.tarjeta--roja {
+  background: var(--rojo);
+  color: var(--blanco);
+}
+
+.tarjeta--amarilla {
+  background: var(--amarillo);
+  color: var(--negro);
+}
+
+.tarjeta__titulo {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.tarjeta__texto {
+  margin-top: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+
+/* Foto con forma de arco: medio círculo arriba (4:5 → 40% del alto = 50% del ancho) */
+.nosotros__foto {
+  width: 100%;
+  max-width: 480px;
+  justify-self: center;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 50% 50% var(--radio-grande) var(--radio-grande) / 40% 40% var(--radio-grande) var(--radio-grande);
+  background: var(--gris-oscuro);
+}
+
+.nosotros__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.valores {
+  margin-top: clamp(56px, 7vw, 96px);
+}
+
+/* Garabato ondulado en lugar de una línea recta */
+.valores__titulo::before {
+  content: "";
+  display: block;
+  width: 96px;
+  height: 13px;
+  margin-bottom: 18px;
+  background: var(--amarillo);
+  -webkit-mask: var(--forma-garabato) left center / contain no-repeat;
+          mask: var(--forma-garabato) left center / contain no-repeat;
+}
+
+.valores__titulo {
+  color: var(--gris-pie);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+
+.valores__lista {
+  display: grid;
+  gap: 28px 32px;
+  margin-top: 24px;
+}
+
+.valor__nombre {
+  font-family: var(--fuente-titulos);
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1;
+}
+
+.valor--amarillo .valor__nombre {
+  color: var(--amarillo);
+}
+
+.valor--rojo .valor__nombre {
+  color: var(--rojo);
+}
+
+.valor--blanco .valor__nombre {
+  color: var(--blanco);
+}
+
+.valor__texto {
+  margin-top: 10px;
+  color: var(--gris-suave);
+  font-size: 16px;
+}
+
+@media (min-width: 560px) {
+  .mision-vision {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Tarjetas escalonadas en vez de alineadas en caja */
+  .mision-vision .tarjeta:nth-child(2) {
+    margin-top: 32px;
+  }
+}
+
+@media (min-width: 700px) {
+  .valores__lista {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .valor:nth-child(2) {
+    margin-top: 24px;
+  }
+}
+
+@media (min-width: 900px) {
+  .nosotros {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   13. Packs
+   -------------------------------------------------------------------------- */
+
+.packs__bajada {
+  max-width: 46ch;
+  margin: 12px 0 clamp(36px, 5vw, 56px);
+  color: inherit;
+  font-size: 17px;
+}
+
+.grilla-packs {
+  display: grid;
+  gap: 32px;
+}
+
+.pack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 32px 26px 28px;
+  border: var(--borde);
+  border-radius: var(--radio-grande);
+  background: var(--pack-fondo);
+  color: var(--pack-tinta);
+}
+
+.pack--blanco {
+  --pack-fondo: var(--blanco);
+  --pack-tinta: var(--negro);
+  --color-foco: var(--negro);
+}
+
+.pack--rojo {
+  --pack-fondo: var(--rojo);
+  --pack-tinta: var(--blanco);
+  --color-foco: var(--negro);
+}
+
+.pack--negro {
+  --pack-fondo: var(--negro);
+  --pack-tinta: var(--blanco);
+  --color-foco: var(--amarillo);
+}
+
+.pack__etiqueta {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+/* En el pack destacado la etiqueta se vuelve un sticker que asoma del borde */
+.pack--destacado .pack__etiqueta {
+  position: absolute;
+  top: 0;
+  right: 24px;
+  padding: 8px 16px;
+  border: var(--borde);
+  border-radius: 999px;
+  background: var(--amarillo);
+  color: var(--negro);
+  opacity: 1;
+  translate: 0 -50%;
+  rotate: 6deg;
+}
+
+.pack__nombre {
+  font-family: var(--fuente-titulos);
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1;
+}
+
+.pack__precio {
+  font-family: var(--fuente-titulos);
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1;
+}
+
+.pack__descripcion {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.pack__boton {
+  margin-top: auto;
+  padding: 13px 22px;
+  background: var(--pack-tinta);
+  color: var(--pack-fondo);
+  font-size: 14px;
+}
+
+.pack__boton:hover {
+  background: var(--amarillo);
+  color: var(--negro);
+}
+
+/* En pantallas grandes las cajas se abren en abanico y la del medio sube */
+@media (min-width: 820px) {
+  .grilla-packs {
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2vw, 28px);
+  }
+
+  .pack:first-child {
+    margin-top: 40px;
+    rotate: -2.5deg;
+  }
+
+  .pack:last-child {
+    margin-top: 40px;
+    rotate: 2.5deg;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   14. Pedidos
+   -------------------------------------------------------------------------- */
+
+.pedidos {
+  display: grid;
+  gap: clamp(32px, 4vw, 64px);
+  align-items: center;
+}
+
+.pedidos .titulo {
+  font-size: clamp(34px, 5vw, 64px);
+}
+
+.pedidos__bajada {
+  max-width: 44ch;
+  margin-top: 18px;
+  font-size: 17px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.pedidos .acciones {
+  margin-top: 30px;
+}
+
+.pedidos .boton--borde:hover {
+  border-color: var(--negro);
+  background: var(--negro);
+  color: var(--blanco);
+}
+
+.pedidos__info {
+  display: grid;
+  gap: 18px;
+  margin: 0;
+  padding: clamp(28px, 3vw, 40px);
+  border-radius: var(--radio-grande);
+  background: var(--negro);
+  color: var(--blanco);
+  --color-foco: var(--amarillo);
+}
+
+/* Separadores de puntos redondos en vez de líneas */
+.dato + .dato {
+  padding-top: 20px;
+  background: var(--puntos);
+}
+
+.dato dt {
+  color: var(--amarillo);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+}
+
+.dato dd {
+  margin-top: 6px;
+  color: var(--gris-claro);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.dato .dato__destacado {
+  color: var(--blanco);
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.dato a {
+  white-space: nowrap;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.35);
+  text-underline-offset: 3px;
+}
+
+.dato a:hover {
+  color: var(--amarillo);
+  text-decoration-color: currentColor;
+}
+
+@media (min-width: 860px) {
+  .pedidos {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   15. Pie
+   -------------------------------------------------------------------------- */
+
+.pie {
+  padding: clamp(40px, 5vw, 72px) var(--margen-lateral) 28px;
+  background: var(--negro);
+  color: var(--blanco);
+  --color-foco: var(--amarillo);
+}
+
+.pie__interior {
+  display: grid;
+  gap: 32px 48px;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+}
+
+.pie__datos {
+  display: grid;
+  gap: 20px;
+}
+
+.pie__menu ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 28px;
+}
+
+.pie__menu a,
+.pie__base a {
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.pie__menu a {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+.pie__menu a:hover,
+.pie__base a:hover {
+  color: var(--amarillo);
+}
+
+.pie__lema {
+  color: var(--gris-pie);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 2;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+
+.pie__base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: clamp(32px, 4vw, 56px);
+  padding-top: 20px;
+  background: var(--puntos);
+  color: var(--gris-pie);
+  font-size: 13px;
+}
+
+@media (min-width: 700px) {
+  .pie__interior {
+    grid-template-columns: auto 1fr;
+    justify-items: stretch;
+    text-align: left;
+  }
+
+  .pie__datos {
+    justify-items: end;
+    text-align: right;
+  }
+
+  .pie__menu ul {
+    justify-content: flex-end;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   16. Páginas internas (sabores.html y packs.html)
+   -------------------------------------------------------------------------- */
+
+/* "Ver más" al final de una sección del inicio */
+.seccion__mas {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(40px, 5vw, 64px);
+}
+
+.precio--grande {
+  padding: 8px 16px;
+  font-size: 18px;
+}
+
+/* Cabecera de página: como el hero, pero más corta */
+.cabecera-pagina {
+  padding:
+    calc(var(--alto-encabezado) + clamp(32px, 5vw, 64px))
+    var(--margen-lateral)
+    calc(clamp(40px, 5vw, 64px) + var(--alto-onda) * 0.6);
+}
+
+.cabecera-pagina--roja {
+  background: var(--rojo);
+  color: var(--blanco);
+  --color-foco: var(--blanco);
+}
+
+.cabecera-pagina--amarilla {
+  background: var(--amarillo);
+  color: var(--negro);
+  --color-foco: var(--negro);
+}
+
+.cabecera-pagina__interior {
+  display: grid;
+  gap: clamp(36px, 5vw, 64px);
+  align-items: center;
+  max-width: var(--ancho-maximo);
+  margin-inline: auto;
+}
+
+.cabecera-pagina__titulo {
+  font-family: var(--fuente-titulos);
+  font-size: clamp(42px, 7vw, 92px);
+  line-height: 0.98;
+  letter-spacing: -1px;
+  text-wrap: balance;
+}
+
+.cabecera-pagina__bajada {
+  max-width: 50ch;
+  margin-top: 20px;
+  font-size: clamp(17px, 1.5vw, 20px);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.cabecera-pagina__foto {
+  width: 100%;
+  max-width: 440px;
+  justify-self: center;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--negro);
+}
+
+.cabecera-pagina__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Migas de pan: Inicio • Página */
+.migas ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.migas li + li::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  vertical-align: middle;
+  opacity: 0.6;
+}
+
+.migas a {
+  text-decoration: none;
+  opacity: 0.75;
+}
+
+.migas a:hover {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Datos rápidos en píldoras */
+.datos-rapidos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.datos-rapidos li {
+  padding: 9px 16px;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Racimo de cookies superpuestas, como stickers */
+.racimo {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  justify-self: center;
+  aspect-ratio: 1;
+}
+
+/* Borde negro: así la cookie de fondo rojo no se pierde sobre el rojo */
+.racimo img {
+  position: absolute;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border: var(--borde);
+  border-radius: 50%;
+}
+
+.racimo img:nth-child(1) {
+  top: 0;
+  left: 2%;
+  width: 54%;
+}
+
+.racimo img:nth-child(2) {
+  top: 10%;
+  right: 0;
+  width: 44%;
+}
+
+.racimo img:nth-child(3) {
+  bottom: 0;
+  left: 10%;
+  width: 42%;
+}
+
+.racimo img:nth-child(4) {
+  right: 8%;
+  bottom: 4%;
+  width: 48%;
+}
+
+/* Detalle de cada sabor: foto redonda y texto, alternando de lado */
+.lista-sabores {
+  display: grid;
+  gap: clamp(72px, 10vw, 128px);
+}
+
+.detalle-sabor {
+  display: grid;
+  gap: clamp(28px, 4vw, 72px);
+  align-items: center;
+}
+
+.detalle-sabor__foto {
+  width: 100%;
+  max-width: 420px;
+  justify-self: center;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.detalle-sabor__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detalle-sabor__encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+}
+
+.detalle-sabor__nombre {
+  font-family: var(--fuente-titulos);
+  font-size: clamp(34px, 4.5vw, 56px);
+  line-height: 1;
+}
+
+.detalle-sabor__bajada {
+  margin-top: 16px;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.detalle-sabor__texto {
+  max-width: 56ch;
+  margin-top: 10px;
+  color: var(--gris-texto);
+  font-size: 16px;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+@media (min-width: 860px) {
+  .detalle-sabor {
+    grid-template-columns: 0.85fr 1.15fr;
+  }
+
+  .detalle-sabor:nth-child(even) {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+
+  .detalle-sabor:nth-child(even) .detalle-sabor__foto {
+    order: 2;
+  }
+}
+
+/* Ficha con datos (qué lleva, ideal para, alérgenos…) */
+.ficha {
+  display: grid;
+  gap: 14px;
+  max-width: 560px;
+  margin: 24px 0 0;
+  padding: 22px 26px;
+  border-radius: var(--radio);
+  background: var(--gris-foto);
+}
+
+.ficha > div + div {
+  padding-top: 14px;
+  background: var(--puntos);
+}
+
+.ficha dt {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+}
+
+.ficha dd {
+  margin-top: 4px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* En packs.html la grilla va debajo del título: aire para el sticker "Más vendido" */
+.grilla-packs--detalle {
+  margin-top: clamp(48px, 6vw, 72px);
+}
+
+/* Dentro de un pack, la ficha va sin fondo y toma los colores de la tarjeta */
+.pack .ficha {
+  margin-top: 4px;
+  padding: 0;
+  background: none;
+}
+
+.pack--rojo .ficha > div + div,
+.pack--negro .ficha > div + div {
+  background: var(--puntos-claros);
+}
+
+.pack .ficha dt {
+  opacity: 0.8;
+}
+
+/* Cantidad de cookies de cada pack, dibujada con mini cookies */
+.pack__cantidad {
+  display: block;
+  height: 30px;
+  background: url('../assets/img/hero-cookie.svg') 0 0 / 30px 30px space;
+}
+
+.pack__cantidad--3 {
+  width: 102px;
+}
+
+.pack__cantidad--6,
+.pack__cantidad--12 {
+  width: 204px;
+  max-width: 100%;
+}
+
+.pack__cantidad--12 {
+  height: 64px;
+}
+
+/* Pasos numerados en círculos, escalonados */
+.pasos {
+  display: grid;
+  gap: 36px 32px;
+  margin-top: clamp(36px, 5vw, 64px);
+  padding: 0;
+  list-style: none;
+}
+
+.paso__numero {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--amarillo);
+  color: var(--negro);
+  font-family: var(--fuente-titulos);
+  font-size: 32px;
+  line-height: 1;
+}
+
+.paso:nth-child(3n + 2) .paso__numero {
+  background: var(--rojo);
+  color: var(--blanco);
+}
+
+.paso:nth-child(3n) .paso__numero {
+  background: var(--blanco);
+  color: var(--negro);
+}
+
+.paso__titulo {
+  margin-top: 18px;
+  font-family: var(--fuente-titulos);
+  font-size: clamp(22px, 2.2vw, 28px);
+  line-height: 1.05;
+}
+
+.paso__texto {
+  max-width: 30ch;
+  margin-top: 8px;
+  color: var(--gris-suave);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+@media (min-width: 760px) {
+  .pasos {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .pasos--cuatro {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .paso:nth-child(even) {
+    margin-top: 48px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pasos--cuatro {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Preguntas frecuentes: píldoras que se abren (<details>) */
+.preguntas {
+  display: grid;
+  gap: 14px;
+  max-width: 880px;
+  margin-top: clamp(32px, 4vw, 48px);
+}
+
+.pregunta {
+  border: var(--borde);
+  border-radius: var(--radio);
+  background: var(--blanco);
+}
+
+.pregunta summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px 18px 26px;
+  border-radius: var(--radio);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.35;
+  list-style: none;
+}
+
+.pregunta summary::-webkit-details-marker {
+  display: none;
+}
+
+.pregunta summary::after {
+  content: "+";
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--rojo);
+  color: var(--blanco);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 0.2s;
+}
+
+.pregunta[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.pregunta p {
+  max-width: 62ch;
+  padding: 0 26px 22px;
+  color: var(--gris-texto);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Llamado a la acción centrado */
+.llamado {
+  text-align: center;
+}
+
+.llamado__bajada {
+  max-width: 44ch;
+  margin: 16px auto 0;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.llamado .acciones {
+  justify-content: center;
+}
+
+@media (min-width: 900px) {
+  .cabecera-pagina__interior {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   17. Menos movimiento (preferencia del sistema)
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .cinta__pista,
+  .hero__sticker {
+    animation: none;
+  }
+
+  .boton,
+  .pregunta summary::after {
+    transition: none;
+  }
+}

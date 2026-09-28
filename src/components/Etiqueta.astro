@@ -1,0 +1,8 @@
+---
+// Etiqueta de sección con número opcional, como en las láminas del manual
+interface Props {
+  numero?: string;
+}
+const { numero } = Astro.props;
+---
+<p class="etiqueta">{numero && <span class="etiqueta__numero">{numero}</span>}<slot /></p>
